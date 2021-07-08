@@ -21,8 +21,8 @@ import { FieldsValidation } from "./middlewares/validation/validation-fields.mid
 import { Database } from "./database";
 import console from "@utils/console";
 
-import express from "express";
-import { Request } from "express";
+import express, { NextFunction } from "express";
+import { Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 
@@ -36,11 +36,17 @@ const database = new Database();
 database.connect();
 app.use(acceptHeaders);
 app.use(bodyParser.json());
-app.get("/api/:version/:namespace/:method", namespaceValidationMiddleware, methodValidationMiddleware, fieldsValidation.fieldsValidationMiddleware, async function (req: Request, res) {
-	console.log("Success!");
-	console.log(req.body);
-	await res.send(res.locals.methodEl.method(req, res));
-});
+app.get(
+	"/api/:version/:namespace/:method",
+	namespaceValidationMiddleware,
+	methodValidationMiddleware,
+	fieldsValidation.fieldsValidationMiddleware,
+	async function (req: Request, res: Response, next: NextFunction) {
+		console.log("Success!");
+		console.log(req.body);
+		await res.send(await res.locals.methodEl.method(req, res, next));
+	}
+);
 app.use(unknownMethodMiddleware);
 app.use(errorMiddleware);
 app.listen(SERVER_PORT, function () {

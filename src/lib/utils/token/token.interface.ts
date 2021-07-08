@@ -1,4 +1,4 @@
 export interface IToken {
-	createToken(source: any): string;
+	createToken(source: any): any;
 	verifyToken(token: string): any;
 }

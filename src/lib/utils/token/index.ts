@@ -1,16 +1,23 @@
 import { IToken } from "./token.interface";
 
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 
 class Token implements IToken {
-	createToken(source: any): string {
-		return jwt.sign(source, process.env.TOKEN_SECRET_KEY!, {
-			expiresIn: "48h",
-		});
+	createToken(): any {
+		const uuid = uuidv4();
+		const expiresIn = "2d";
+		return {
+			uuid,
+			expiresIn,
+			token: jwt.sign({ uuid }, process.env.TOKEN_SECRET_KEY!, {
+				expiresIn: expiresIn,
+			}),
+		};
 	}
-	verifyToken(source: any): any {
+	verifyToken(token: string): any {
 		try {
-			return { data: jwt.verify(source, process.env.TOKEN_SECRET_KEY!), valid: true };
+			return { data: jwt.verify(token, process.env.TOKEN_SECRET_KEY!), valid: true };
 		} catch {
 			return {
 				data: null,
