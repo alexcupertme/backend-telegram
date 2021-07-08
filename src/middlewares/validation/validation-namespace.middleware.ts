@@ -1,11 +1,15 @@
-import { NextFunction, Request, Response } from "express";
 import { HttpException } from "@project/lib/entities/http-exception.entity";
 import { schema } from "@project/api/schema";
 
+import { NextFunction, Request, Response } from "express";
+
 export async function namespaceValidationMiddleware(request: Request, response: Response, next: NextFunction) {
-	const isExists = await schema.namespaces.findIndex((methodEl) => {
-		return methodEl.namespace == request.params.namespace;
+	const namespaceIndex = await schema.namespaces.findIndex((namespaceEl) => {
+		return namespaceEl.name == request.params.namespace;
 	});
-	response.locals.namespaceIndex = isExists;
-	isExists != -1 ? next() : next(new HttpException(0, 0, "This method does not exists!"));
+	response.locals.namespaceIndex = namespaceIndex;
+	if (namespaceIndex != -1) {
+		response.locals.namespace = schema.namespaces[namespaceIndex];
+		next();
+	} else next(new HttpException(0, 0, "This namespace does not exists!"));
 }

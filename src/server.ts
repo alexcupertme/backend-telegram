@@ -12,32 +12,37 @@
     5 - Validation error. Empty required fields
     6 - Types validation error
 */
-
-import express from "express";
-import { Request } from "express";
-import dotenv from "dotenv";
-import ResponseSchema from "./lib/entities/response.entity";
 import { acceptHeaders } from "./middlewares/accept-headers.middleware";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { unknownMethodMiddleware } from "./middlewares/unknown-method.middleware";
 import { namespaceValidationMiddleware } from "./middlewares/validation/validation-namespace.middleware";
 import { methodValidationMiddleware } from "./middlewares/validation/validation-methods.middleware";
 import { FieldsValidation } from "./middlewares/validation/validation-fields.middleware";
+import { Database } from "./database";
+import console from "@utils/console";
+
+import express from "express";
+import { Request } from "express";
+import dotenv from "dotenv";
 import bodyParser from "body-parser";
+
 dotenv.config();
 let app = express();
 
 const { SERVER_PORT } = process.env;
 
 const fieldsValidation = new FieldsValidation();
+const database = new Database();
+database.connect();
 app.use(acceptHeaders);
 app.use(bodyParser.json());
-app.get("/api/:version/:namespace/:method", namespaceValidationMiddleware, methodValidationMiddleware, fieldsValidation.fieldsValidationMiddleware, function (req: Request, res) {
+app.get("/api/:version/:namespace/:method", namespaceValidationMiddleware, methodValidationMiddleware, fieldsValidation.fieldsValidationMiddleware, async function (req: Request, res) {
 	console.log("Success!");
-	res.send(new ResponseSchema(req.params.namespace + "." + req.params.method, 0, 0, "Success!"));
+	console.log(req.body);
+	await res.send(res.locals.methodEl.method(req, res));
 });
 app.use(unknownMethodMiddleware);
 app.use(errorMiddleware);
 app.listen(SERVER_PORT, function () {
-	console.info("Backend listening on " + SERVER_PORT);
+	console.log("Backend listening on " + SERVER_PORT);
 });

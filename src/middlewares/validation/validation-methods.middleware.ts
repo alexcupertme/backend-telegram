@@ -1,7 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+//@ts-ignore
 import { HttpException } from "@project/lib/entities/http-exception.entity";
 import { schema } from "@project/api/schema";
-import { parseNumber } from "@project/lib/utils/parse-number";
+import Parse from "@project/lib/utils/parse";
+
+import { NextFunction, Request, Response } from "express";
 
 /**
  * Validating API method.
@@ -13,16 +15,18 @@ import { parseNumber } from "@project/lib/utils/parse-number";
  */
 export async function methodValidationMiddleware(request: Request, response: Response, next: NextFunction) {
 	request.params.version.match(/^v[0-9]+$/g) ? request.params.version : -1;
-	const requestedVersion: number = parseNumber(request.params.version);
-	let methodIndex;
-	schema.namespaces[response.locals.namespaceIndex].methods.map((methodEl, index, array) => {
-		if (methodEl.name != request.params.method) {
-			next(new HttpException(0, 0, "This method does not exists!"));
-		} else if (methodEl.minVersion > requestedVersion || methodEl.maxVersion < requestedVersion) {
-			next(new HttpException(0, 2, "Invalid API version!"));
-		}
-		methodIndex = index;
-		response.locals.methodIndex = methodIndex;
+	//@ts-ignore
+	const requestedVersion: number = Parse.parseNumber(request.params.version);
+	const methodIndex = schema.namespaces[response.locals.namespaceIndex].methods.findIndex((methodEl) => {
+		return methodEl.name == request.params.method;
 	});
-	next();
+	if (methodIndex == -1) next(new HttpException(0, 0, "This method does not exists!"));
+	else {
+		const methodEl = (response.locals.method = schema.namespaces[response.locals.namespaceIndex].methods[methodIndex]);
+		response.locals.action = response.locals.namespace.name + "." + methodEl.name;
+		response.locals.methodEl = methodEl;
+		if (methodEl.minVersion > requestedVersion || methodEl.maxVersion < requestedVersion) {
+			next(new HttpException(0, 2, "Invalid API version!"));
+		} else next();
+	}
 }

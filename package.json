@@ -16,16 +16,21 @@
     "ajv": "^8.6.1",
     "ajv-error-messages": "^1.0.3",
     "ajv-errors": "^3.0.0",
+    "argon2": "^0.28.2",
     "body-parser": "^1.19.0",
     "chalk": "^4.1.1",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.2",
+    "randexp": "^0.5.3"
   },
   "devDependencies": {
+    "@momothepug/tsmodule-alias": "^1.0.0",
+    "@types/jsonwebtoken": "^8.5.4",
     "@types/node": "^15.12.2",
-    "tsconfig-paths": "^3.9.0",
-    "typescript": "^4.3.2",
     "ts-node": "^10.0.0",
-    "@momothepug/tsmodule-alias": "^1.0.0"
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.3.2"
   }
 }
