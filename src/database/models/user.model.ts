@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
 		type: Number,
 		default: Date.now(),
 	},
+	uuid: String,
 	role: { type: String, default: "unverified" },
 });
 

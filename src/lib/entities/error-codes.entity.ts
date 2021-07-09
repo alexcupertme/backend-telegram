@@ -60,6 +60,12 @@ export const ErrorCodes = {
 			textCode: "ERR_NO_TOKEN",
 			msg: "This request requires token authorization!",
 		},
+		accessDenied: {
+			httpStatus: 400,
+			code: 40010,
+			textCode: "ERR_ACCESS_DENIED",
+			msg: "You cannot request this method!",
+		},
 	},
 	serverError: {
 		default: {

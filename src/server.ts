@@ -18,6 +18,7 @@ import { unknownMethodMiddleware } from "./middlewares/unknown-method.middleware
 import { namespaceValidationMiddleware } from "./middlewares/validation/validation-namespace.middleware";
 import { methodValidationMiddleware } from "./middlewares/validation/validation-methods.middleware";
 import { FieldsValidation } from "./middlewares/validation/validation-fields.middleware";
+import { authorizationMiddleware } from "./middlewares/authorization.middleware";
 import { Database } from "./database";
 import console from "@utils/console";
 
@@ -41,6 +42,7 @@ app.get(
 	namespaceValidationMiddleware,
 	methodValidationMiddleware,
 	fieldsValidation.fieldsValidationMiddleware,
+	authorizationMiddleware,
 	async function (req: Request, res: Response, next: NextFunction) {
 		console.log("Success!");
 		console.log(req.body);

@@ -1,10 +1,10 @@
-import { IToken } from "./token.interface";
+import { IToken, TokenType } from "./token.interface";
 
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 
 class Token implements IToken {
-	createToken(): any {
+	createToken(): TokenType {
 		const uuid = uuidv4();
 		const expiresIn = "2d";
 		return {

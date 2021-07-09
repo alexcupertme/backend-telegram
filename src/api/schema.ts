@@ -1,5 +1,6 @@
 import { register } from "@api/auth/register";
 import { login } from "@api/auth/login";
+import { test } from "@api/user/test";
 
 //prettier-ignore
 //@ts-ignore
@@ -65,8 +66,22 @@ export const schema = {
 			],
 		},
 		{
-			namespace: "user",
-			methods: [],
+			name: "user",
+			methods: [
+				{
+					name: "test",
+					method: test,
+					minVersion: 1.0,
+					maxVersion: 1.0,
+					description: "Test",
+					type: "object",
+					params: {
+						properties: {},
+						additionalProperties: false
+					},
+					roles: ["unverified"]
+				},
+			],
 		},
 	],
 };
