@@ -3,7 +3,6 @@ import userModel from "@models/user.model";
 import CryptString from "@utils/crypt-string";
 import { HttpException } from "@entities/http-exception.entity";
 import Token from "@utils/token";
-import Cookie from "@utils/cookie";
 
 import { NextFunction, Request, Response } from "express";
 
@@ -18,7 +17,6 @@ export async function register(request: Request, response: Response, next: NextF
 		await userModel.create(request.body);
 		const tokenData = await Token.createToken();
 		await userModel.updateOne({ login: request.body.login }, { id: tokenData.uuid });
-		response.setHeader("Set-Cookie", [Cookie.createCookie(tokenData.token, tokenData.expiresIn)]);
 		return new ResponseSchema(request.originalUrl, tokenData.token, 1, "Success!");
 	}
 }

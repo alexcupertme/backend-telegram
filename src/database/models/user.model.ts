@@ -1,3 +1,5 @@
+import { IUser } from "./user.interface";
+
 import * as mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
@@ -11,6 +13,6 @@ const UserSchema = new mongoose.Schema({
 	role: { type: String, default: "unverified" },
 });
 
-const userModel = mongoose.model<mongoose.Document>("User", UserSchema);
+const userModel = mongoose.model<IUser & mongoose.Document>("User", UserSchema);
 
 export = userModel;
