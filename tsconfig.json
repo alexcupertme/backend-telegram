@@ -20,7 +20,10 @@
 			"@utils/*": ["lib/utils/*"],
 			"@library/*": ["lib/*"],
 			"@api/*": ["api/*"],
-			"@models/*": ["database/models/*"]
+			"@models/*": ["database/models/*"],
+			"@responseSchema": ["lib/entities/response.entity.ts"],
+			"@errorSchema": ["lib/entities/http-exception.entity.ts"],
+			"@errorCodes": ["lib/entities/error-codes.entity.ts"]
 		},
 		"esModuleInterop": true,
 		"experimentalDecorators": true,

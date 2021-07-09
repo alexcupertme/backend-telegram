@@ -1,12 +1,10 @@
 export class HttpException {
-	code: number;
 	data: Object;
 	message: string;
-	field: string | undefined;
-	constructor(data: Object, code: number, message: string, field?: string) {
+	error: any;
+	constructor(data: Object, message: string, error: any) {
 		this.data = data;
-		this.code = code;
 		this.message = message;
-		this.field = field;
+		this.error = error;
 	}
 }

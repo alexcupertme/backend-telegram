@@ -1,5 +1,6 @@
 import { HttpException } from "@project/lib/entities/http-exception.entity";
 import { schema } from "@project/api/schema";
+import { ErrorCodes } from "@errorCodes";
 
 import { NextFunction, Request, Response } from "express";
 
@@ -11,5 +12,5 @@ export async function namespaceValidationMiddleware(request: Request, response: 
 	if (namespaceIndex != -1) {
 		response.locals.namespace = schema.namespaces[namespaceIndex];
 		next();
-	} else next(new HttpException(0, 0, "This namespace does not exists!"));
+	} else next(new HttpException(0, "", ErrorCodes.badRequest.unknownNamespace));
 }

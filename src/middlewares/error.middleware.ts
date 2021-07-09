@@ -3,9 +3,8 @@ import { HttpException } from "@project/lib/entities/http-exception.entity";
 import { NextFunction, Request, Response } from "express";
 
 export async function errorMiddleware(error: HttpException, request: Request, response: Response, next: NextFunction) {
-	const status = 400;
-	const code = error.code;
+	const errorData = error.error;
 	const data = error.data || null;
-	const message = error.message || "Something went wrong";
-	response.status(status).send({ data, status, message, code });
+	const message = error.message;
+	response.status(errorData.httpStatus).send({ data, message, errorData });
 }

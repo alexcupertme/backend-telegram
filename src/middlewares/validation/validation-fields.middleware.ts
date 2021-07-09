@@ -1,6 +1,8 @@
+import { HttpException } from "@errorSchema";
+import { ErrorCodes } from "@errorCodes";
+
 import { NextFunction, Request, Response } from "express";
 import Ajv from "ajv";
-import { HttpException } from "@project/lib/entities/http-exception.entity";
 
 export class FieldsValidation {
 	async fieldsValidationMiddleware(request: Request, response: Response, next: NextFunction) {
@@ -13,19 +15,19 @@ export class FieldsValidation {
 			const message = validate.errors[0].message;
 			switch (validate.errors[0].keyword) {
 				case "required":
-					next(new HttpException(0, 2, `Request ${message} in '${propName}'`));
+					next(new HttpException(0, `Request ${message} in '${propName}'`, ErrorCodes.badRequest.emptyFields));
 					break;
 				case "pattern":
-					next(new HttpException(0, 2, `Incorrect format of property '${propName}'`));
+					next(new HttpException(0, `Incorrect format of property '${propName}'`, ErrorCodes.badRequest.fieldsError));
 					break;
 				case "maxLength":
-					next(new HttpException(0, 2, `Property '${propName}' ${message}`));
+					next(new HttpException(0, `Property '${propName}' ${message}`, ErrorCodes.badRequest.fieldsError));
 					break;
 				case "minLength":
-					next(new HttpException(0, 2, `Property '${propName}' ${message}`));
+					next(new HttpException(0, `Property '${propName}' ${message}`, ErrorCodes.badRequest.fieldsError));
 					break;
 				case "type":
-					next(new HttpException(0, 2, `Property '${propName}' ${message}`));
+					next(new HttpException(0, `Property '${propName}' ${message}`, ErrorCodes.badRequest.fieldsError));
 					break;
 			}
 		}
