@@ -35,12 +35,32 @@ export const ErrorCodes = {
 			textCode: "ERR_ERROR_FIELDS",
 			msg: "Some fields has incorrect format!",
 		},
+		invalidApiVersion: {
+			code: 40007,
+			textCode: "ERR_INCORRECT_API_V",
+			msg: "Check your API version and try again!",
+		},
+		incorrectToken: {
+			code: 40008,
+			textCode: "ERR_INCORRECT_TOKEN",
+			msg: "Incorrect token!",
+		},
+		noToken: {
+			code: 40009,
+			textCode: "ERR_NO_TOKEN",
+			msg: "This request requires token authorization!",
+		},
 	},
 	serverError: {
 		default: {
 			code: 50001,
 			textCode: "ERR_SERVER_ERROR",
 			msg: "Something went wrong!",
+		},
+		databaseError: {
+			code: 50002,
+			textCode: "ERR_DATABASE_ERROR",
+			msg: "The server is currently unable to process your request. Try it in 5 minutes!",
 		},
 	},
 };

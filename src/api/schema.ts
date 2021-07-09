@@ -30,6 +30,7 @@ export const schema = {
 						required: ["login", "password"],
 						additionalProperties: false
 					},
+					roles: ["default"]
 				},
 				{
 					name: "register",
@@ -59,6 +60,7 @@ export const schema = {
 						required: ["login", "password", "mail"],
 						additionalProperties: false
 					},
+					roles: ["default"]
 				},
 			],
 		},
