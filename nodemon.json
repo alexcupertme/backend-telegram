@@ -4,7 +4,9 @@
   ],
   "ext": "ts,json,txt,env",
   "ignore": [
-    "src/**/*.spec.ts"
+    "src/**/*.spec.ts",
+    "first-name.ts",
+    "last-name.ts"
   ],
   "exec": "ts-node -r tsconfig-paths/register ./src/server.ts"
 }

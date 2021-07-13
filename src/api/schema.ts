@@ -12,14 +12,20 @@ export const schema = {
 				{
 					name: "login",
 					method: login,
+					type: "POST",
 					minVersion: 1.0,
 					maxVersion: 1.0,
 					description: "User authentication",
-					type: "object",
 					params: {
 						properties: {
 							login: {
-								type: "string",
+								type: "object",
+								properties: {
+									biliboba: {
+										type: "string"
+									}
+								},
+								required: ["biliboba"]
 							},
 							password: {
 								type: "string",
@@ -36,10 +42,10 @@ export const schema = {
 				{
 					name: "register",
 					method: register,
+					type: "POST",
 					minVersion: 1.0,
 					maxVersion: 1.0,
 					description: "User registration",
-					type: "object",
 					params: {
 						properties: {
 							login: {

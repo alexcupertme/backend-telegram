@@ -1,3 +1,5 @@
+/* Not used now */
+
 import { NextFunction, Request, Response } from "express";
 
 export async function acceptHeaders(request: Request, response: Response, next: NextFunction) {

@@ -15,7 +15,7 @@ export class FieldsValidation {
 			const message = validate.errors[0].message;
 			switch (validate.errors[0].keyword) {
 				case "required":
-					next(new HttpException(0, `Request ${message} in '${propName}'`, ErrorCodes.badRequest.emptyFields));
+					next(new HttpException(0, `Request ${message}${propName != "" ? ` in '${propName}'` : ""}`, ErrorCodes.badRequest.emptyFields));
 					break;
 				case "pattern":
 					next(new HttpException(0, `Incorrect format of property '${propName}'`, ErrorCodes.badRequest.fieldsError));

@@ -12,7 +12,6 @@
     5 - Validation error. Empty required fields
     6 - Types validation error
 */
-import { acceptHeaders } from "./middlewares/accept-headers.middleware";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { unknownMethodMiddleware } from "./middlewares/unknown-method.middleware";
 import { namespaceValidationMiddleware } from "./middlewares/validation/validation-namespace.middleware";
@@ -36,7 +35,6 @@ const { SERVER_PORT } = process.env;
 const fieldsValidation = new FieldsValidation();
 const database = new Database();
 database.connect();
-app.use(acceptHeaders);
 app.use(cors());
 app.use(bodyParser.json());
 app.post(

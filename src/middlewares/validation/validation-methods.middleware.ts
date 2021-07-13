@@ -18,8 +18,10 @@ export async function methodValidationMiddleware(request: Request, response: Res
 		const methodEl = (response.locals.method = schema.namespaces[response.locals.namespaceIndex].methods[methodIndex]);
 		response.locals.action = response.locals.namespace.name + "." + methodEl.name;
 		response.locals.methodEl = methodEl;
-		if (methodEl.minVersion > requestedVersion || methodEl.maxVersion < requestedVersion) {
-			next(new HttpException(0, "", ErrorCodes.badRequest.invalidApiVersion));
-		} else next();
+		if (methodEl.minVersion > requestedVersion || methodEl.maxVersion < requestedVersion) next(new HttpException(0, "", ErrorCodes.badRequest.invalidApiVersion));
+		else {
+			if (methodEl.type != request.method) next(new HttpException(0, "", ErrorCodes.badRequest.unknownMethod));
+			else next();
+		}
 	}
 }
