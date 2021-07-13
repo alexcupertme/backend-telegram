@@ -30,5 +30,7 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"lib": ["dom", "es7"]
-	}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "**/*.spec.ts", "build"]
 }
