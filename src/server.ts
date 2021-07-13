@@ -38,9 +38,8 @@ const database = new Database();
 database.connect();
 app.use(acceptHeaders);
 app.use(cors());
-app.options("*", cors);
 app.use(bodyParser.json());
-app.get(
+app.all(
 	"/api/:version/:namespace/:method",
 	namespaceValidationMiddleware,
 	methodValidationMiddleware,
