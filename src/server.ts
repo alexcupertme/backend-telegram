@@ -39,7 +39,7 @@ database.connect();
 app.use(acceptHeaders);
 app.use(cors());
 app.use(bodyParser.json());
-app.all(
+app.post(
 	"/api/:version/:namespace/:method",
 	namespaceValidationMiddleware,
 	methodValidationMiddleware,
