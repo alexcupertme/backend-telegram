@@ -26,6 +26,7 @@ import express, { NextFunction } from "express";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 dotenv.config();
 let app = express();
@@ -36,6 +37,8 @@ const fieldsValidation = new FieldsValidation();
 const database = new Database();
 database.connect();
 app.use(acceptHeaders);
+app.use(cors());
+app.options("*", cors);
 app.use(bodyParser.json());
 app.get(
 	"/api/:version/:namespace/:method",
