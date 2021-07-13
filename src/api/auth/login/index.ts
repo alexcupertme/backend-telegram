@@ -8,13 +8,13 @@ import { ErrorCodes } from "@errorCodes";
 import { NextFunction, Request, Response } from "express";
 
 export async function login(request: Request, response: Response, next: NextFunction): Promise<any> {
-	const findByLogin = await userModel.findOne({ login: request.body.login }, {}, {});
-	if (!findByLogin) next(new HttpException(0, "", ErrorCodes.badRequest.incorrectAuth));
-	else if (!(await CryptString.check(findByLogin.password, request.body.password))) next(new HttpException(0, "", ErrorCodes.badRequest.incorrectAuth));
+	const findByMail = await userModel.findOne({ mail: request.body.mail }, {}, {});
+	if (!findByMail) next(new HttpException(0, "", ErrorCodes.badRequest.incorrectAuth));
+	else if (!(await CryptString.check(findByMail.password, request.body.password))) next(new HttpException(0, "", ErrorCodes.badRequest.incorrectAuth));
 	else {
 		request.body.password = await CryptString.crypt(request.body.password);
 		const tokenData = await Token.createToken();
-		await userModel.updateOne({ login: request.body.login }, { uuid: tokenData.uuid });
+		await userModel.updateOne({ mail: request.body.mail }, { uuid: tokenData.uuid });
 		return new ResponseSchema(request.originalUrl, tokenData.token, 1, "Success!");
 	}
 }

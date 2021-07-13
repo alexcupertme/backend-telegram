@@ -18,14 +18,11 @@ export const schema = {
 					description: "User authentication",
 					params: {
 						properties: {
-							login: {
-								type: "object",
-								properties: {
-									biliboba: {
-										type: "string"
-									}
-								},
-								required: ["biliboba"]
+							mail: {
+								type: "string",
+								minLength: 4,
+								maxLength: 24,
+								pattern: "^([\\w"+"\.\-]+)@([\\"+"w\-]+)((\.(\\"+"w){2,3})+)$"
 							},
 							password: {
 								type: "string",
@@ -34,7 +31,7 @@ export const schema = {
 								pattern: "(?=.*[0-9])(?=.*\\" + "W)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$",
 							},
 						},
-						required: ["login", "password"],
+						required: ["mail", "password"],
 						additionalProperties: false
 					},
 					roles: ["default"]
@@ -48,9 +45,6 @@ export const schema = {
 					description: "User registration",
 					params: {
 						properties: {
-							login: {
-								type: "string",
-							},
 							password: {
 								type: "string",
 								minLength: 8,
@@ -64,7 +58,7 @@ export const schema = {
 								pattern: "^([\\w"+"\.\-]+)@([\\"+"w\-]+)((\.(\\"+"w){2,3})+)$"
 							}
 						},
-						required: ["login", "password", "mail"],
+						required: ["password", "mail"],
 						additionalProperties: false
 					},
 					roles: ["default"]
