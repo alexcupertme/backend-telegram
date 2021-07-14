@@ -1,7 +1,7 @@
 import Token from "@utils/token";
 import { ErrorCodes } from "@errorCodes";
 import { HttpException } from "@errorSchema";
-import userModel from "@models/user.model";
+import userModel from "@database/models/user.model";
 
 import { NextFunction, Request, Response } from "express";
 

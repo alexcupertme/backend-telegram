@@ -1,5 +1,6 @@
 import { register } from "@api/auth/register";
 import { login } from "@api/auth/login";
+import { logout } from "@api/auth/logout";
 import { test } from "@api/user/test";
 
 //prettier-ignore
@@ -63,6 +64,19 @@ export const schema = {
 					},
 					roles: ["default"]
 				},
+				{
+					name: "logout",
+					method: logout,
+					type: "POST",
+					minVersion: 1.0,
+					maxVersion: 1.0,
+					description: "Token deactivation",
+					params: {
+						properties: {},
+						additionalProperties: false
+					},
+					roles: ["unverified"]
+				},
 			],
 		},
 		{
@@ -74,7 +88,7 @@ export const schema = {
 					minVersion: 1.0,
 					maxVersion: 1.0,
 					description: "Test",
-					type: "object",
+					type: "GET",
 					params: {
 						properties: {},
 						additionalProperties: false

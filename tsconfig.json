@@ -23,7 +23,8 @@
 			"@models/*": ["database/models/*"],
 			"@responseSchema": ["lib/entities/response.entity.ts"],
 			"@errorSchema": ["lib/entities/http-exception.entity.ts"],
-			"@errorCodes": ["lib/entities/error-codes.entity.ts"]
+			"@errorCodes": ["lib/entities/error-codes.entity.ts"],
+			"@database/*": ["lib/database/*"]
 		},
 		"esModuleInterop": true,
 		"experimentalDecorators": true,

@@ -18,7 +18,7 @@ import { namespaceValidationMiddleware } from "./middlewares/validation/validati
 import { methodValidationMiddleware } from "./middlewares/validation/validation-methods.middleware";
 import { FieldsValidation } from "./middlewares/validation/validation-fields.middleware";
 import { authorizationMiddleware } from "./middlewares/authorization.middleware";
-import { Database } from "./database";
+import { Database } from "@database/index";
 import console from "@utils/console";
 
 import express, { NextFunction } from "express";
@@ -37,7 +37,7 @@ const database = new Database();
 database.connect();
 app.use(cors());
 app.use(bodyParser.json());
-app.post(
+app.all(
 	"/api/:version/:namespace/:method",
 	namespaceValidationMiddleware,
 	methodValidationMiddleware,

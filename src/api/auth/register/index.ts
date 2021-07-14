@@ -1,5 +1,5 @@
 import ResponseSchema from "@entities/response.entity";
-import userModel from "@models/user.model";
+import userModel from "@database/models/user.model";
 import CryptString from "@utils/crypt-string";
 import { HttpException } from "@entities/http-exception.entity";
 import Token from "@utils/token";
