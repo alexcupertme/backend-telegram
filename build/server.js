@@ -21,8 +21,6 @@ const authorization_middleware_1 = require("./middlewares/authorization.middlewa
 const index_1 = require("@database/index");
 const _constants_1 = require("@constants");
 const console_1 = __importDefault(require("@utils/console"));
-const https_1 = __importDefault(require("https"));
-const fs_1 = __importDefault(require("fs"));
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
@@ -41,12 +39,6 @@ app.all("/api/:version/:namespace/:method", validation_namespace_middleware_1.na
 });
 app.use(unknown_method_middleware_1.unknownMethodMiddleware);
 app.use(error_middleware_1.errorMiddleware);
-https_1.default
-    .createServer({
-    key: fs_1.default.readFileSync("./key.pem"),
-    cert: fs_1.default.readFileSync("./cert.pem"),
-    passphrase: "biliboba",
-}, app)
-    .listen(process.env.PORT || _constants_1.Constants.SERVER_PORT, () => {
+app.listen(process.env.PORT || _constants_1.Constants.SERVER_PORT, () => {
     console_1.default.log("Backend listening on " + process.env.PORT || _constants_1.Constants.SERVER_PORT);
 });

@@ -22,8 +22,6 @@ import { Database } from "@database/index";
 import { Constants } from "@constants";
 import console from "@utils/console";
 
-import https from "https";
-import fs from "fs";
 import express, { NextFunction } from "express";
 import { Request, Response } from "express";
 import bodyParser from "body-parser";
