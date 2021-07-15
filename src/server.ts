@@ -53,15 +53,6 @@ app.use(errorMiddleware);
 // app.listen(Constants.SERVER_PORT, function () {
 // 	console.log("Backend listening on " + Constants.SERVER_PORT);
 // });
-https
-	.createServer(
-		{
-			key: fs.readFileSync("./key.pem"),
-			cert: fs.readFileSync("./cert.pem"),
-			passphrase: "biliboba",
-		},
-		app
-	)
-	.listen(process.env.PORT || Constants.SERVER_PORT, () => {
-		console.log("Backend listening on " + process.env.PORT || Constants.SERVER_PORT);
-	});
+https.createServer(app).listen(process.env.PORT || Constants.SERVER_PORT, () => {
+	console.log("Backend listening on " + process.env.PORT || Constants.SERVER_PORT);
+});
