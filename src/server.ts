@@ -62,6 +62,6 @@ https
 		},
 		app
 	)
-	.listen(Constants.SERVER_PORT, () => {
-		console.log("Backend listening on " + Constants.SERVER_PORT);
+	.listen(process.env.PORT || Constants.SERVER_PORT, () => {
+		console.log("Backend listening on " + process.env.PORT || Constants.SERVER_PORT);
 	});
