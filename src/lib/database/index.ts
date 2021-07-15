@@ -1,17 +1,16 @@
 import console from "@utils/console";
 import { IDatabase } from "./database.interface";
+import { Constants } from "@constants";
 
 import mongoose from "mongoose";
 
 export class Database implements IDatabase {
-	private _user: string | undefined = process.env.DB_USER;
-	//@ts-ignore
-	private _secretKey: string | undefined = process.env.DB_SECRET_KEY;
-	private _pwd: string | undefined = process.env.DB_PWD;
-	private _host: string | undefined = process.env.DB_HOST;
-	private _databaseName: string | undefined = process.env.DB_NAME;
-	private _port: string | undefined = process.env.DB_PORT;
-	private _GATEWAY: string = `mongodb+srv://${this._host}:${this._port}?retryWrites=true&w=majority`;
+	private _user = Constants.DB_USER;
+	private _pwd = Constants.DB_PWD;
+	private _host = Constants.DB_HOST;
+	private _databaseName = Constants.DB_NAME;
+	private _port = Constants.DB_PORT;
+	private _GATEWAY = `mongodb+srv://${this._host}:${this._port}?retryWrites=true&w=majority`;
 	constructor() {}
 	connect() {
 		const db = mongoose.connection;

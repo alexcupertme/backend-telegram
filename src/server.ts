@@ -19,18 +19,17 @@ import { methodValidationMiddleware } from "./middlewares/validation/validation-
 import { FieldsValidation } from "./middlewares/validation/validation-fields.middleware";
 import { authorizationMiddleware } from "./middlewares/authorization.middleware";
 import { Database } from "@database/index";
+import { Constants } from "@constants";
 import console from "@utils/console";
 
+import https from "https";
+import fs from "fs";
 import express, { NextFunction } from "express";
 import { Request, Response } from "express";
-import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 
-dotenv.config();
 let app = express();
-
-const { SERVER_PORT } = process.env;
 
 const fieldsValidation = new FieldsValidation();
 const database = new Database();
@@ -51,6 +50,18 @@ app.all(
 );
 app.use(unknownMethodMiddleware);
 app.use(errorMiddleware);
-app.listen(SERVER_PORT, function () {
-	console.log("Backend listening on " + SERVER_PORT);
-});
+// app.listen(Constants.SERVER_PORT, function () {
+// 	console.log("Backend listening on " + Constants.SERVER_PORT);
+// });
+https
+	.createServer(
+		{
+			key: fs.readFileSync("./key.pem"),
+			cert: fs.readFileSync("./cert.pem"),
+			passphrase: "biliboba",
+		},
+		app
+	)
+	.listen(Constants.SERVER_PORT, () => {
+		console.log("Backend listening on " + Constants.SERVER_PORT);
+	});

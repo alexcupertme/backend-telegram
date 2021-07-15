@@ -80,5 +80,5 @@ export const ErrorCodes = {
 			textCode: "ERR_DATABASE_ERROR",
 			msg: "The server is currently unable to process your request. Try it in 5 minutes!",
 		},
-	},
-};
+	}
+}

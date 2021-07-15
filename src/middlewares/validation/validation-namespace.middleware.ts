@@ -1,5 +1,5 @@
-import { HttpException } from "@project/lib/entities/http-exception.entity";
-import { schema } from "@project/api/schema";
+import { HttpException } from "@errorSchema";
+import { schema } from "@schema";
 import { ErrorCodes } from "@errorCodes";
 
 import { NextFunction, Request, Response } from "express";

@@ -1,4 +1,4 @@
-import { HttpException } from "@project/lib/entities/http-exception.entity";
+import { HttpException } from "@errorSchema";
 import { ErrorCodes } from "@errorCodes";
 
 import { NextFunction, Request, Response } from "express";

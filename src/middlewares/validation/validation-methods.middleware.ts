@@ -1,7 +1,7 @@
 //@ts-ignore
-import { HttpException } from "@project/lib/entities/http-exception.entity";
-import { schema } from "@project/api/schema";
-import Parse from "@project/lib/utils/parse";
+import { HttpException } from "@errorSchema";
+import { schema } from "@schema";
+import Parse from "@utils/parse";
 import { ErrorCodes } from "@errorCodes";
 
 import { NextFunction, Request, Response } from "express";

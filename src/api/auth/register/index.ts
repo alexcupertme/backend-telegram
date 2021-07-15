@@ -1,9 +1,10 @@
 import ResponseSchema from "@entities/response.entity";
 import userModel from "@database/models/user.model";
 import CryptString from "@utils/crypt-string";
-import { HttpException } from "@entities/http-exception.entity";
+import { HttpException } from "@errorSchema";
 import Token from "@utils/token";
 import { ErrorCodes } from "@errorCodes";
+import MailValidation from "@library/mail/mail-validation"
 
 import { NextFunction, Request, Response } from "express";
 
@@ -16,6 +17,7 @@ export async function register(request: Request, response: Response, next: NextF
 		await userModel.create(request.body);
 		const tokenData = await Token.createToken();
 		await userModel.updateOne({ mail: request.body.mail }, { id: tokenData.uuid });
+		MailValidation.addToConfirmation(request.body.mail);
 		return new ResponseSchema(request.originalUrl, tokenData.token, 1, "Success!");
 	}
 }

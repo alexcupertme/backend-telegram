@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"target": "ES2020",
+		"target": "es6",
 		"module": "commonjs",
 		"allowJs": true,
 		"resolveJsonModule": true,
@@ -14,7 +14,6 @@
 		"rootDir": "./src",
 		"baseUrl": "./src",
 		"paths": {
-			"@project/*": ["*"],
 			"@entities/*": ["lib/entities/*"],
 			"@schema": ["api/schema.ts"],
 			"@utils/*": ["lib/utils/*"],
@@ -24,14 +23,15 @@
 			"@responseSchema": ["lib/entities/response.entity.ts"],
 			"@errorSchema": ["lib/entities/http-exception.entity.ts"],
 			"@errorCodes": ["lib/entities/error-codes.entity.ts"],
-			"@database/*": ["lib/database/*"]
+			"@database/*": ["lib/database/*"],
+			"@constants": ["lib/constants.ts"]
 		},
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
-		"lib": ["dom", "es7"]
+		"lib": ["dom", "dom.iterable", "esnext"]
 	},
-	"include": ["src/**/*"],
+	"include": ["src"],
 	"exclude": ["node_modules", "**/*.spec.ts", "build"]
 }
