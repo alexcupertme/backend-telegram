@@ -29,9 +29,7 @@
     "mongoose": "^5.13.2",
     "randexp": "^0.5.3",
     "sib-api-v3-typescript": "^2.2.2",
-    "uuid": "^8.3.2"
-  },
-  "devDependencies": {
+    "uuid": "^8.3.2",
     "@momothepug/tsmodule-alias": "^1.0.0",
     "@types/cors": "^2.8.12",
     "@types/jsonwebtoken": "^8.5.4",
@@ -40,5 +38,7 @@
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.3.2"
+  },
+  "devDependencies": {
   }
 }
