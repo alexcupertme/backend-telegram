@@ -22,7 +22,7 @@ exports.ErrorCodes = {
             msg: "This login already registered!",
         },
         unknownMethod: {
-            httpStatus: 400,
+            httpStatus: 200,
             code: 40003,
             textCode: "ERR_UNKNOWN_METHOD",
             msg: "Requested method does not exists!",
@@ -83,5 +83,5 @@ exports.ErrorCodes = {
             textCode: "ERR_DATABASE_ERROR",
             msg: "The server is currently unable to process your request. Try it in 5 minutes!",
         },
-    }
+    },
 };

@@ -32,6 +32,6 @@
 		"forceConsistentCasingInFileNames": true,
 		"lib": ["dom", "dom.iterable", "esnext"]
 	},
-	"include": ["src"],
+	"include": ["src", "rbwIDMGMzkJws9O1L4Eg_3XZ4CT1f0S7OmHXizXjJi8"],
 	"exclude": ["node_modules", "**/*.spec.ts", "build"]
 }
