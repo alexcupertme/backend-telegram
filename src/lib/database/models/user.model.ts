@@ -12,6 +12,10 @@ const UserSchema = new mongoose.Schema({
 		default: () => Date.now(),
 	},
 	uuid: String,
+	mailVerified: {
+		type: Boolean,
+		default: false,
+	},
 	role: { type: String, default: "unverified" },
 });
 

@@ -7,4 +7,5 @@ export interface IUser extends mongoose.Document {
 	registerDate: number;
 	role: string;
 	uuid: string;
+	mailVerified: false;
 }

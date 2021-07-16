@@ -60,7 +60,7 @@ export const schema = {
 							}
 						},
 						required: ["password", "mail"],
-						additionalProperties: false
+						additionalProperties: false	
 					},
 					roles: ["default"]
 				},

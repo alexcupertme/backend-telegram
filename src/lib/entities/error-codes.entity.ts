@@ -19,7 +19,7 @@ export const ErrorCodes = {
 			msg: "This login already registered!",
 		},
 		unknownMethod: {
-			httpStatus: 200,
+			httpStatus: 400,
 			code: 40003,
 			textCode: "ERR_UNKNOWN_METHOD",
 			msg: "Requested method does not exists!",
@@ -65,6 +65,12 @@ export const ErrorCodes = {
 			code: 40010,
 			textCode: "ERR_ACCESS_DENIED",
 			msg: "You cannot request this method!",
+		},
+		noVerifiedMail: {
+			httpStatus: 400,
+			code: 40011,
+			textCode: "ERR_VERIFICATION_MAIL_REQUIRED",
+			msg: "You need to verify your mail first!",
 		},
 	},
 	serverError: {
