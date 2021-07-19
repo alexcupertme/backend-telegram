@@ -23,7 +23,6 @@ export async function register(request: Request, response: Response, next: NextF
 			{
 				token: tokenData.token,
 			},
-			1,
 			"Success! Then you need to verify your mail!"
 		);
 	}

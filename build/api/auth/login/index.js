@@ -30,7 +30,7 @@ function login(request, response, next) {
             request.body.password = yield crypt_string_1.default.crypt(request.body.password);
             const tokenData = yield token_1.default.createToken();
             yield user_model_1.default.updateOne({ mail: request.body.mail }, { uuid: tokenData.uuid });
-            return new response_entity_1.default(request.originalUrl, { token: tokenData.token }, 1, "Success!");
+            return new response_entity_1.default(request.originalUrl, { token: tokenData.token }, "Success!");
         }
     });
 }

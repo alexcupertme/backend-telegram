@@ -75,7 +75,23 @@ exports.schema = {
                     description: "Token deactivation",
                     params: {
                         properties: {},
-                        additionalProperties: false
+                        additionalProperties: false,
+                        required: []
+                    },
+                    roles: ["user"],
+                    mailVerification: false,
+                },
+                {
+                    name: "verify-mail",
+                    method: login_1.login,
+                    type: "POST",
+                    minVersion: 1.0,
+                    maxVersion: 1.0,
+                    description: "User activation by mail",
+                    params: {
+                        properties: {},
+                        additionalProperties: false,
+                        required: []
                     },
                     roles: ["user"],
                     mailVerification: false,
@@ -94,7 +110,8 @@ exports.schema = {
                     type: "GET",
                     params: {
                         properties: {},
-                        additionalProperties: false
+                        additionalProperties: false,
+                        required: []
                     },
                     roles: ["user"],
                     mailVerification: true,

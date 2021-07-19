@@ -15,6 +15,6 @@ export async function login(request: Request, response: Response, next: NextFunc
 		request.body.password = await CryptString.crypt(request.body.password);
 		const tokenData = await Token.createToken();
 		await userModel.updateOne({ mail: request.body.mail }, { uuid: tokenData.uuid });
-		return new ResponseSchema(request.originalUrl, { token: tokenData.token }, 1, "Success!");
+		return new ResponseSchema(request.originalUrl, { token: tokenData.token }, "Success!");
 	}
 }

@@ -18,40 +18,20 @@ const validation_namespace_middleware_1 = require("./middlewares/validation/vali
 const validation_methods_middleware_1 = require("./middlewares/validation/validation-methods.middleware");
 const validation_fields_middleware_1 = require("./middlewares/validation/validation-fields.middleware");
 const authorization_middleware_1 = require("./middlewares/authorization.middleware");
+const logger_middleware_1 = require("./middlewares/logger.middleware");
 const index_1 = require("@database/index");
 const _constants_1 = require("@constants");
 const console_1 = __importDefault(require("@utils/console"));
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
-const winston_1 = __importDefault(require("winston"));
-const express_winston_1 = __importDefault(require("express-winston"));
-const winston_daily_rotate_file_1 = __importDefault(require("winston-daily-rotate-file"));
 let app = express_1.default();
 const fieldsValidation = new validation_fields_middleware_1.FieldsValidation();
 const database = new index_1.Database();
 database.connect();
 app.use(cors_1.default());
 app.use(body_parser_1.default.json());
-const transport = new winston_daily_rotate_file_1.default({
-    frequency: "1h",
-    filename: "log-%DATE%.log",
-    datePattern: "YYYY-MM-DD-HH",
-    zippedArchive: true,
-    maxSize: "20m",
-    maxFiles: "14d",
-    dirname: "./src/log",
-});
-app.use(express_winston_1.default.logger({
-    transports: [transport],
-    format: winston_1.default.format.combine(winston_1.default.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }), winston_1.default.format.printf((info) => {
-        console_1.default.log(info);
-        return `[${info.req.method}] ${info.req.url}`;
-    })),
-    meta: true,
-    msg: "HTTP {{req.method}} {{req.url}}",
-    expressFormat: true,
-}));
+app.use(logger_middleware_1.loggerMiddleware);
 app.all("/api/:version/:namespace/:method", validation_namespace_middleware_1.namespaceValidationMiddleware, validation_methods_middleware_1.methodValidationMiddleware, fieldsValidation.fieldsValidationMiddleware, authorization_middleware_1.authorizationMiddleware, function (req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         console_1.default.log("Success!");

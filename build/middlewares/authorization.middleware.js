@@ -19,6 +19,7 @@ const _errorSchema_1 = require("@errorSchema");
 const user_model_1 = __importDefault(require("@database/models/user.model"));
 function authorizationMiddleware(request, response, next) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(request.query);
         if (response.locals.methodEl.roles.find((rolesEl) => rolesEl == "default"))
             next();
         else if (!request.headers["authorization"])
@@ -26,8 +27,8 @@ function authorizationMiddleware(request, response, next) {
         else if (!token_1.default.verifyToken(request.headers["authorization"]).valid)
             next(new _errorSchema_1.HttpException(0, "", _errorCodes_1.ErrorCodes.badRequest.incorrectToken));
         else {
-            const user = yield user_model_1.default.findOne({ uuid: token_1.default.verifyToken(request.headers["authorization"]).data.uuid }).exec();
-            console.log(response.locals.methodEl);
+            const tokenData = token_1.default.verifyToken(request.headers["authorization"]);
+            const user = yield user_model_1.default.findOne({ uuid: tokenData.data.uuid }).exec();
             if (!user)
                 next(new _errorSchema_1.HttpException(0, "", _errorCodes_1.ErrorCodes.badRequest.incorrectToken));
             else if (!response.locals.methodEl.roles.find((rolesEl) => rolesEl == user.role))
@@ -35,6 +36,7 @@ function authorizationMiddleware(request, response, next) {
             else if (response.locals.methodEl.mailVerification && !user.verified)
                 next(new _errorSchema_1.HttpException(0, "", _errorCodes_1.ErrorCodes.badRequest.noVerifiedMail));
             else {
+                response.locals.uuid = tokenData.data.uuid;
                 next();
             }
         }

@@ -32,7 +32,7 @@ function logout(request, response, next) {
                 next(new _errorSchema_1.HttpException(0, "", _errorCodes_1.ErrorCodes.badRequest.incorrectToken));
             else {
                 yield user_model_1.default.updateOne({ uuid: tokenValid.data.uuid }, { uuid: tokenData.uuid });
-                return new response_entity_1.default(request.originalUrl, "", 1, "Success!");
+                return new response_entity_1.default(request.originalUrl, "", "Success!");
             }
         }
     });

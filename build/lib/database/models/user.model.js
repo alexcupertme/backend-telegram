@@ -37,6 +37,7 @@ const UserSchema = new mongoose.Schema({
         default: false,
     },
     confirmId: String,
+    confirmCode: Number,
     role: { type: String, default: "user" },
 });
 const userModel = mongoose.model("User", UserSchema);

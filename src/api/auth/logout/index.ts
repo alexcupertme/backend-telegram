@@ -17,7 +17,7 @@ export async function logout(request: Request, response: Response, next: NextFun
 		if (!findByUUID) next(new HttpException(0, "", ErrorCodes.badRequest.incorrectToken));
 		else {
 			await userModel.updateOne({ uuid: tokenValid.data.uuid }, { uuid: tokenData.uuid });
-			return new ResponseSchema(request.originalUrl, "", 1, "Success!");
+			return new ResponseSchema(request.originalUrl, "", "Success!");
 		}
 	}
 }
