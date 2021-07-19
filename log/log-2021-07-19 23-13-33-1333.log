@@ -1,0 +1,6 @@
+HTTP [POST] 2021-07-19 23:13:44:1344 /api/v1/auth/regsiter ::1 Query: {}
+HTTP [POST] 2021-07-19 23:13:59:1359 /api/v1/auth/register ::1 Query: {}
+HTTP [POST] 2021-07-19 23:14:26:1426 /api/v1/auth/register ::1 Query: {}
+HTTP [POST] 2021-07-19 23:14:34:1434 /api/v1/auth/register ::1 Query: {"awdawd":"awdwad"}
+HTTP [POST] 2021-07-19 23:14:39:1439 /api/v1/auth/register ::1 Query: {"awdawd":["awdwad","awdawd"]}
+HTTP [POST] 2021-07-19 23:14:45:1445 /api/v1/auth/register ::1 Query: {"awdawd":"awdwad","awdawdd":"awdawd"}

@@ -31,7 +31,7 @@ function register(request, response, next) {
             const tokenData = yield token_1.default.createToken();
             yield user_model_1.default.updateOne({ mail: request.body.mail }, { id: tokenData.uuid });
             mail_validation_1.default.addToConfirmation(request.body.mail);
-            return new response_entity_1.default(request.originalUrl, tokenData.token, 1, "Success!");
+            return new response_entity_1.default(request.originalUrl, {}, 1, "Success! Then you need to verify your mail!");
         }
     });
 }

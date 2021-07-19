@@ -16,7 +16,9 @@ const UserSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false,
 	},
-	role: { type: String, default: "unverified" },
+	confirmId: String,
+	confirmCode: Number,
+	role: { type: String, default: "user" },
 });
 
 const userModel = mongoose.model<IUser & mongoose.Document>("User", UserSchema);

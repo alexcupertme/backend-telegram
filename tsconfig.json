@@ -27,6 +27,7 @@
 			"@constants": ["lib/constants.ts"]
 		},
 		"esModuleInterop": true,
+		"isolatedModules": true,
 		"experimentalDecorators": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,

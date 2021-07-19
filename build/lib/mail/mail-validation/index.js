@@ -15,10 +15,14 @@ const _constants_1 = require("@constants");
 const console_1 = __importDefault(require("@utils/console"));
 const get_mail_content_1 = require("./get-mail-content");
 const axios_1 = __importDefault(require("axios"));
+const user_model_1 = __importDefault(require("@database/models/user.model"));
+const uuid_1 = require("uuid");
 class MailValidation {
     addToConfirmation(email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const confirmId = uuid_1.v4();
+                yield user_model_1.default.updateOne({ email }, { confirmId });
                 const data = yield axios_1.default({
                     method: "POST",
                     url: "https://api.sendinblue.com/v3/smtp/email",
@@ -30,15 +34,15 @@ class MailValidation {
                     data: {
                         sender: {
                             name: "BotFactory Ltd",
-                            email: "vzlomed@gmail.com",
+                            email: "support@botsfactory.ru",
                         },
                         to: [
                             {
-                                email: email,
+                                email,
                             },
                         ],
                         subject: "Успешная регистрация! | BotFactory Ltd",
-                        htmlContent: get_mail_content_1.getMailContent(email, "aw3awdjj21j5jjjdajwd", "Александр"),
+                        htmlContent: get_mail_content_1.getMailContent(email, confirmId),
                     },
                 });
                 return data.data ? data.data : null;

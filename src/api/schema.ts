@@ -1,11 +1,17 @@
+// Auth routes
 import { register } from "@api/auth/register";
 import { login } from "@api/auth/login";
 import { logout } from "@api/auth/logout";
+// import { verifyMail } from "@api/auth/verify-mail";
+
+// User routes
 import { test } from "@api/user/test";
+
+import { ISchema } from "./schema.interface";
 
 //prettier-ignore
 //@ts-ignore
-export const schema = {
+export const schema: ISchema = {
 	namespaces: [
 		{
 			name: "auth",
@@ -35,7 +41,8 @@ export const schema = {
 						required: ["mail", "password"],
 						additionalProperties: false
 					},
-					roles: ["default"]
+					roles: ["default"],
+					mailVerification: false,
 				},
 				{
 					name: "register",
@@ -55,14 +62,15 @@ export const schema = {
 							mail: {
 								type: "string",
 								minLength: 4,
-								maxLength: 24,
+								maxLength: 40,
 								pattern: "^([\\w"+"\.\-]+)@([\\"+"w\-]+)((\.(\\"+"w){2,3})+)$"
 							}
 						},
 						required: ["password", "mail"],
 						additionalProperties: false	
 					},
-					roles: ["default"]
+					roles: ["default"],
+					mailVerification: false,
 				},
 				{
 					name: "logout",
@@ -73,9 +81,26 @@ export const schema = {
 					description: "Token deactivation",
 					params: {
 						properties: {},
-						additionalProperties: false
+						additionalProperties: false,
+						required: []
 					},
-					roles: ["unverified"]
+					roles: ["user"],
+					mailVerification: false,
+				},
+				{
+					name: "verify-mail",
+					method: login,
+					type: "POST",
+					minVersion: 1.0,
+					maxVersion: 1.0,
+					description: "User activation by mail",
+					params: {
+						properties: {},
+						additionalProperties: false,
+						required: []
+					},
+					roles: ["user"],
+					mailVerification: false,
 				},
 			],
 		},
@@ -91,9 +116,11 @@ export const schema = {
 					type: "GET",
 					params: {
 						properties: {},
-						additionalProperties: false
+						additionalProperties: false,
+						required: []
 					},
-					roles: ["unverified"]
+					roles: ["user"],
+					mailVerification: true,
 				},
 			],
 		},

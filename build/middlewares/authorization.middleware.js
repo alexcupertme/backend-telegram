@@ -27,10 +27,13 @@ function authorizationMiddleware(request, response, next) {
             next(new _errorSchema_1.HttpException(0, "", _errorCodes_1.ErrorCodes.badRequest.incorrectToken));
         else {
             const user = yield user_model_1.default.findOne({ uuid: token_1.default.verifyToken(request.headers["authorization"]).data.uuid }).exec();
+            console.log(response.locals.methodEl);
             if (!user)
                 next(new _errorSchema_1.HttpException(0, "", _errorCodes_1.ErrorCodes.badRequest.incorrectToken));
             else if (!response.locals.methodEl.roles.find((rolesEl) => rolesEl == user.role))
                 next(new _errorSchema_1.HttpException(0, "", _errorCodes_1.ErrorCodes.badRequest.accessDenied));
+            else if (response.locals.methodEl.mailVerification && !user.verified)
+                next(new _errorSchema_1.HttpException(0, "", _errorCodes_1.ErrorCodes.badRequest.noVerifiedMail));
             else {
                 next();
             }

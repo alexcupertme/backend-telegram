@@ -32,7 +32,12 @@ const UserSchema = new mongoose.Schema({
         default: () => Date.now(),
     },
     uuid: String,
-    role: { type: String, default: "unverified" },
+    mailVerified: {
+        type: Boolean,
+        default: false,
+    },
+    confirmId: String,
+    role: { type: String, default: "user" },
 });
 const userModel = mongoose.model("User", UserSchema);
 module.exports = userModel;

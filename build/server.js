@@ -24,12 +24,34 @@ const console_1 = __importDefault(require("@utils/console"));
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
+const winston_1 = __importDefault(require("winston"));
+const express_winston_1 = __importDefault(require("express-winston"));
+const winston_daily_rotate_file_1 = __importDefault(require("winston-daily-rotate-file"));
 let app = express_1.default();
 const fieldsValidation = new validation_fields_middleware_1.FieldsValidation();
 const database = new index_1.Database();
 database.connect();
 app.use(cors_1.default());
 app.use(body_parser_1.default.json());
+const transport = new winston_daily_rotate_file_1.default({
+    frequency: "1h",
+    filename: "log-%DATE%.log",
+    datePattern: "YYYY-MM-DD-HH",
+    zippedArchive: true,
+    maxSize: "20m",
+    maxFiles: "14d",
+    dirname: "./src/log",
+});
+app.use(express_winston_1.default.logger({
+    transports: [transport],
+    format: winston_1.default.format.combine(winston_1.default.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }), winston_1.default.format.printf((info) => {
+        console_1.default.log(info);
+        return `[${info.req.method}] ${info.req.url}`;
+    })),
+    meta: true,
+    msg: "HTTP {{req.method}} {{req.url}}",
+    expressFormat: true,
+}));
 app.all("/api/:version/:namespace/:method", validation_namespace_middleware_1.namespaceValidationMiddleware, validation_methods_middleware_1.methodValidationMiddleware, fieldsValidation.fieldsValidationMiddleware, authorization_middleware_1.authorizationMiddleware, function (req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         console_1.default.log("Success!");
@@ -39,6 +61,6 @@ app.all("/api/:version/:namespace/:method", validation_namespace_middleware_1.na
 });
 app.use(unknown_method_middleware_1.unknownMethodMiddleware);
 app.use(error_middleware_1.errorMiddleware);
-app.listen(process.env.PORT || _constants_1.Constants.SERVER_PORT, () => {
-    console_1.default.log("Backend listening on " + process.env.PORT || _constants_1.Constants.SERVER_PORT);
+app.listen(process.env.PORT == undefined ? _constants_1.Constants.SERVER_PORT : process.env.PORT, () => {
+    console_1.default.log(`Backend listening on ${process.env.PORT == undefined ? _constants_1.Constants.SERVER_PORT : process.env.PORT}!`);
 });

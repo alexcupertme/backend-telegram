@@ -35,7 +35,8 @@ exports.schema = {
                         required: ["mail", "password"],
                         additionalProperties: false
                     },
-                    roles: ["default"]
+                    roles: ["default"],
+                    mailVerification: false,
                 },
                 {
                     name: "register",
@@ -55,14 +56,15 @@ exports.schema = {
                             mail: {
                                 type: "string",
                                 minLength: 4,
-                                maxLength: 24,
+                                maxLength: 40,
                                 pattern: "^([\\w" + "\.\-]+)@([\\" + "w\-]+)((\.(\\" + "w){2,3})+)$"
                             }
                         },
                         required: ["password", "mail"],
                         additionalProperties: false
                     },
-                    roles: ["default"]
+                    roles: ["default"],
+                    mailVerification: false,
                 },
                 {
                     name: "logout",
@@ -75,7 +77,8 @@ exports.schema = {
                         properties: {},
                         additionalProperties: false
                     },
-                    roles: ["unverified"]
+                    roles: ["user"],
+                    mailVerification: false,
                 },
             ],
         },
@@ -93,7 +96,8 @@ exports.schema = {
                         properties: {},
                         additionalProperties: false
                     },
-                    roles: ["unverified"]
+                    roles: ["user"],
+                    mailVerification: true,
                 },
             ],
         },
