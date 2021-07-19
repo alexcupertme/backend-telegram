@@ -9,7 +9,12 @@ export type IMethod = {
 	minVersion: number;
 	maxVersion: number;
 	description: string;
-	params: {
+	body: {
+		properties: any;
+		required: any[];
+		additionalProperties: boolean;
+	};
+	query: {
 		properties: any;
 		required: any[];
 		additionalProperties: boolean;

@@ -7,6 +7,7 @@ import { ErrorCodes } from "@errorCodes";
 import { NextFunction, Request, Response } from "express";
 
 export async function methodValidationMiddleware(request: Request, response: Response, next: NextFunction) {
+	// Parse numbers
 	request.params.version.match(/^v[0-9]+$/g) ? request.params.version : -1;
 	//@ts-ignore
 	const requestedVersion: number = Parse.parseNumber(request.params.version);

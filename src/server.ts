@@ -31,7 +31,8 @@ app.all(
 	"/api/:version/:namespace/:method",
 	namespaceValidationMiddleware,
 	methodValidationMiddleware,
-	fieldsValidation.fieldsValidationMiddleware,
+	fieldsValidation.bodyValidationMiddleware,
+	fieldsValidation.queryValidationMiddleware,
 	authorizationMiddleware,
 	async function (req: Request, res: Response, next: NextFunction) {
 		console.log("Success!");
