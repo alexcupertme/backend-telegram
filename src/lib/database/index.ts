@@ -4,7 +4,7 @@ import { Constants } from "@constants";
 
 import mongoose from "mongoose";
 
-export class Database implements IDatabase {
+class Database implements IDatabase {
 	private _user = Constants.DB_USER;
 	private _pwd = Constants.DB_PWD;
 	private _host = Constants.DB_HOST;
@@ -36,3 +36,5 @@ export class Database implements IDatabase {
 		});
 	}
 }
+
+export = new Database();

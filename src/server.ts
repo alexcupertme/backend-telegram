@@ -10,7 +10,7 @@ import { authorizationMiddleware } from "./middlewares/authorization.middleware"
 import { loggerMiddleware } from "./middlewares/logger.middleware";
 import { rateLimiterMiddleware } from "middlewares/rate-limiter.middleware";
 
-import { Database } from "@database/index";
+import Database from "@database/index";
 import { Constants } from "@constants";
 import console from "@utils/console";
 
@@ -22,8 +22,7 @@ import cors from "cors";
 let app = express();
 
 const fieldsValidation = new FieldsValidation();
-const database = new Database();
-database.connect();
+Database.connect();
 app.use(cors());
 app.use(bodyParser.json());
 
