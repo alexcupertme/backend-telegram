@@ -17,7 +17,7 @@ exports.schema = {
                     minVersion: 1.0,
                     maxVersion: 1.0,
                     description: "User authentication",
-                    params: {
+                    body: {
                         properties: {
                             mail: {
                                 type: "string",
@@ -35,6 +35,15 @@ exports.schema = {
                         required: ["mail", "password"],
                         additionalProperties: false
                     },
+                    query: {
+                        properties: {
+                            boba: {
+                                type: "string"
+                            }
+                        },
+                        additionalProperties: false,
+                        required: ["boba"]
+                    },
                     roles: ["default"],
                     mailVerification: false,
                 },
@@ -45,7 +54,7 @@ exports.schema = {
                     minVersion: 1.0,
                     maxVersion: 1.0,
                     description: "User registration",
-                    params: {
+                    body: {
                         properties: {
                             password: {
                                 type: "string",
@@ -63,6 +72,11 @@ exports.schema = {
                         required: ["password", "mail"],
                         additionalProperties: false
                     },
+                    query: {
+                        properties: {},
+                        additionalProperties: false,
+                        required: []
+                    },
                     roles: ["default"],
                     mailVerification: false,
                 },
@@ -73,7 +87,12 @@ exports.schema = {
                     minVersion: 1.0,
                     maxVersion: 1.0,
                     description: "Token deactivation",
-                    params: {
+                    body: {
+                        properties: {},
+                        additionalProperties: false,
+                        required: []
+                    },
+                    query: {
                         properties: {},
                         additionalProperties: false,
                         required: []
@@ -88,7 +107,12 @@ exports.schema = {
                     minVersion: 1.0,
                     maxVersion: 1.0,
                     description: "User activation by mail",
-                    params: {
+                    body: {
+                        properties: {},
+                        additionalProperties: false,
+                        required: []
+                    },
+                    query: {
                         properties: {},
                         additionalProperties: false,
                         required: []
@@ -108,7 +132,12 @@ exports.schema = {
                     maxVersion: 1.0,
                     description: "Test",
                     type: "GET",
-                    params: {
+                    body: {
+                        properties: {},
+                        additionalProperties: false,
+                        required: []
+                    },
+                    query: {
                         properties: {},
                         additionalProperties: false,
                         required: []

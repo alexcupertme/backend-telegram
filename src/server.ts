@@ -8,6 +8,8 @@ import { methodValidationMiddleware } from "./middlewares/validation/validation-
 import { FieldsValidation } from "./middlewares/validation/validation-fields.middleware";
 import { authorizationMiddleware } from "./middlewares/authorization.middleware";
 import { loggerMiddleware } from "./middlewares/logger.middleware";
+import { rateLimiterMiddleware } from "middlewares/rate-limiter.middleware";
+
 import { Database } from "@database/index";
 import { Constants } from "@constants";
 import console from "@utils/console";
@@ -31,8 +33,8 @@ app.all(
 	"/api/:version/:namespace/:method",
 	namespaceValidationMiddleware,
 	methodValidationMiddleware,
-	fieldsValidation.bodyValidationMiddleware,
-	fieldsValidation.queryValidationMiddleware,
+	rateLimiterMiddleware,
+	fieldsValidation.fieldsValidationMiddleware,
 	authorizationMiddleware,
 	async function (req: Request, res: Response, next: NextFunction) {
 		console.log("Success!");

@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -17,35 +8,46 @@ const _errorSchema_1 = require("@errorSchema");
 const _errorCodes_1 = require("@errorCodes");
 const ajv_1 = __importDefault(require("ajv"));
 class FieldsValidation {
+    _parseError(type, keyword, message, propName) {
+        switch (keyword) {
+            case "required":
+                return new _errorSchema_1.HttpException(0, `${type}: Request ${message}${propName != "" ? ` in '${propName}'` : ""}`, _errorCodes_1.ErrorCodes.badRequest.emptyFields);
+            case "pattern":
+                return new _errorSchema_1.HttpException(0, `${type}: Incorrect format of property '${propName}'`, _errorCodes_1.ErrorCodes.badRequest.fieldsError);
+            case "maxLength":
+                return new _errorSchema_1.HttpException(0, `${type}: Property '${propName}' ${message}`, _errorCodes_1.ErrorCodes.badRequest.fieldsError);
+            case "minLength":
+                return new _errorSchema_1.HttpException(0, `${type}: Property '${propName}' ${message}`, _errorCodes_1.ErrorCodes.badRequest.fieldsError);
+            case "type":
+                return new _errorSchema_1.HttpException(0, `${type}: Property '${propName}' ${message}`, _errorCodes_1.ErrorCodes.badRequest.fieldsError);
+        }
+    }
+    _validate(data, params, type) {
+        console.log(456124125);
+        const ajv = new ajv_1.default({ strict: false, removeAdditional: true });
+        const validate = ajv.compile(params);
+        validate(data);
+        if (!validate.errors)
+            return null;
+        else {
+            console.log(777);
+            const propName = validate.errors[0].instancePath.split("/")[validate.errors[0].instancePath.split("/").length - 1];
+            const message = validate.errors[0].message;
+            const fieldsError = this._parseError(type, validate.errors[0].keyword, message, propName);
+            if (fieldsError)
+                return fieldsError;
+            else
+                return new _errorSchema_1.HttpException(0, `Unhandler field error!`, _errorCodes_1.ErrorCodes.badRequest.fieldsError);
+        }
+    }
     fieldsValidationMiddleware(request, response, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const ajv = new ajv_1.default({ strict: false, removeAdditional: true });
-            const validate = ajv.compile(response.locals.methodEl.params);
-            validate(request.body);
-            if (!validate.errors)
-                next();
-            else {
-                const propName = validate.errors[0].instancePath.split("/")[validate.errors[0].instancePath.split("/").length - 1];
-                const message = validate.errors[0].message;
-                switch (validate.errors[0].keyword) {
-                    case "required":
-                        next(new _errorSchema_1.HttpException(0, `Request ${message}${propName != "" ? ` in '${propName}'` : ""}`, _errorCodes_1.ErrorCodes.badRequest.emptyFields));
-                        break;
-                    case "pattern":
-                        next(new _errorSchema_1.HttpException(0, `Incorrect format of property '${propName}'`, _errorCodes_1.ErrorCodes.badRequest.fieldsError));
-                        break;
-                    case "maxLength":
-                        next(new _errorSchema_1.HttpException(0, `Property '${propName}' ${message}`, _errorCodes_1.ErrorCodes.badRequest.fieldsError));
-                        break;
-                    case "minLength":
-                        next(new _errorSchema_1.HttpException(0, `Property '${propName}' ${message}`, _errorCodes_1.ErrorCodes.badRequest.fieldsError));
-                        break;
-                    case "type":
-                        next(new _errorSchema_1.HttpException(0, `Property '${propName}' ${message}`, _errorCodes_1.ErrorCodes.badRequest.fieldsError));
-                        break;
-                }
-            }
-        });
+        const bodyErr = this._validate(request.body, response.locals.methodEl.body, "Body");
+        console.log(124123);
+        const queryErr = this._validate(request.query, response.locals.methodEl.query, "Query");
+        if (!bodyErr && !queryErr)
+            next();
+        else
+            next(bodyErr != null ? bodyErr : queryErr);
     }
 }
 exports.FieldsValidation = FieldsValidation;

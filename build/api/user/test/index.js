@@ -16,7 +16,7 @@ exports.test = void 0;
 const _responseSchema_1 = __importDefault(require("@responseSchema"));
 function test(request, response, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        return new _responseSchema_1.default(request.originalUrl, 0, 1, "Success!");
+        return new _responseSchema_1.default(request.originalUrl, 0, "Success!");
     });
 }
 exports.test = test;

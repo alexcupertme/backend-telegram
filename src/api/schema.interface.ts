@@ -8,6 +8,8 @@ export type IMethod = {
 	type: IType;
 	minVersion: number;
 	maxVersion: number;
+	maxRequestRate: number;
+	timeRequestRate: number;
 	description: string;
 	body: {
 		properties: any;

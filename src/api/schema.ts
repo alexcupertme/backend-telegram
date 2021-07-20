@@ -2,6 +2,7 @@
 import { register } from "@api/auth/register";
 import { login } from "@api/auth/login";
 import { logout } from "@api/auth/logout";
+import { changePassword } from "@api/auth/change-password";
 // import { verifyMail } from "@api/auth/verify-mail";
 
 // User routes
@@ -22,6 +23,8 @@ export const schema: ISchema = {
 					type: "POST",
 					minVersion: 1.0,
 					maxVersion: 1.0,
+					maxRequestRate: 10,
+					timeRequestRate: 60,
 					description: "User authentication",
 					body: {
 						properties: {
@@ -42,7 +45,8 @@ export const schema: ISchema = {
 						additionalProperties: false
 					},
 					query: {
-						properties: {},
+						properties: {
+						},
 						additionalProperties: false,
 						required: []
 					},
@@ -55,6 +59,8 @@ export const schema: ISchema = {
 					type: "POST",
 					minVersion: 1.0,
 					maxVersion: 1.0,
+					maxRequestRate: 3,
+					timeRequestRate: 600,
 					description: "User registration",
 					body: {
 						properties: {
@@ -88,6 +94,8 @@ export const schema: ISchema = {
 					type: "POST",
 					minVersion: 1.0,
 					maxVersion: 1.0,
+					maxRequestRate: 10,
+					timeRequestRate: 60,
 					description: "Token deactivation",
 					body: {
 						properties: {},
@@ -108,11 +116,52 @@ export const schema: ISchema = {
 					type: "POST",
 					minVersion: 1.0,
 					maxVersion: 1.0,
+					maxRequestRate: 3,
+					timeRequestRate: 600,
 					description: "User activation by mail",
 					body: {
 						properties: {},
 						additionalProperties: false,
 						required: []
+					},
+					query: {
+						properties: {
+							confirmId: {
+								type: "string"
+							}
+						},
+						additionalProperties: false,
+						required: ["confirmId"]
+					},
+					roles: ["user"],
+					mailVerification: false,
+				},
+				{
+					name: "change-password",
+					method: changePassword,
+					type: "POST",
+					minVersion: 1.0,
+					maxVersion: 1.0,
+					maxRequestRate: 3,
+					timeRequestRate: 600,
+					description: "Change account password",
+					body: {
+						properties: {
+							password: {
+								type: "string",
+								minLength: 8,
+								maxLength: 24,
+								pattern: "(?=.*[0-9])(?=.*\\" + "W)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$",
+							},
+							newPassword: {
+								type: "string",
+								minLength: 8,
+								maxLength: 24,
+								pattern: "(?=.*[0-9])(?=.*\\" + "W)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$",
+							},
+						},
+						required: ["password", "newPassword"],
+						additionalProperties: false
 					},
 					query: {
 						properties: {},
@@ -132,6 +181,8 @@ export const schema: ISchema = {
 					method: test,
 					minVersion: 1.0,
 					maxVersion: 1.0,
+					maxRequestRate: 60,
+					timeRequestRate: 60,
 					description: "Test",
 					type: "GET",
 					body: {

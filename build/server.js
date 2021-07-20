@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const error_middleware_1 = require("./middlewares/error.middleware");
 const unknown_method_middleware_1 = require("./middlewares/unknown-method.middleware");
 const validation_namespace_middleware_1 = require("./middlewares/validation/validation-namespace.middleware");
 const validation_methods_middleware_1 = require("./middlewares/validation/validation-methods.middleware");
@@ -40,7 +39,6 @@ app.all("/api/:version/:namespace/:method", validation_namespace_middleware_1.na
     });
 });
 app.use(unknown_method_middleware_1.unknownMethodMiddleware);
-app.use(error_middleware_1.errorMiddleware);
 app.listen(process.env.PORT == undefined ? _constants_1.Constants.SERVER_PORT : process.env.PORT, () => {
     console_1.default.log(`Backend listening on ${process.env.PORT == undefined ? _constants_1.Constants.SERVER_PORT : process.env.PORT}!`);
 });

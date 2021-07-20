@@ -19,7 +19,6 @@ const _errorSchema_1 = require("@errorSchema");
 const user_model_1 = __importDefault(require("@database/models/user.model"));
 function authorizationMiddleware(request, response, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(request.query);
         if (response.locals.methodEl.roles.find((rolesEl) => rolesEl == "default"))
             next();
         else if (!request.headers["authorization"])

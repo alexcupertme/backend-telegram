@@ -6,8 +6,7 @@ import Ajv from "ajv";
 
 //NEEDS TO REFACTOR
 export class FieldsValidation {
-	private _ajv: Ajv = new Ajv({ strict: false, removeAdditional: true });
-	private _parseError(type: "Body" | "Query", keyword: string, message: string | undefined, propName: string) {
+	private _parseError(type: string, keyword: string, message: string | undefined, propName: string) {
 		switch (keyword) {
 			case "required":
 				return new HttpException(0, `${type}: Request ${message}${propName != "" ? ` in '${propName}'` : ""}`, ErrorCodes.badRequest.emptyFields);
@@ -19,34 +18,26 @@ export class FieldsValidation {
 				return new HttpException(0, `${type}: Property '${propName}' ${message}`, ErrorCodes.badRequest.fieldsError);
 			case "type":
 				return new HttpException(0, `${type}: Property '${propName}' ${message}`, ErrorCodes.badRequest.fieldsError);
-			default:
-				return null;
 		}
 	}
-	async bodyValidationMiddleware(request: Request, response: Response, next: NextFunction) {
-		const validate = this._ajv.compile(response.locals.methodEl.params);
-		validate(request.body);
-		if (!validate.errors) next();
+	private _validate(data: any, params: any, type: "Body" | "Query") {
+		const ajv: Ajv = new Ajv({ strict: false, removeAdditional: true });
+		const validate = ajv.compile(params);
+		validate(data);
+		if (!validate.errors) return null;
 		else {
 			const propName = validate.errors[0].instancePath.split("/")[validate.errors[0].instancePath.split("/").length - 1];
 			const message = validate.errors[0].message;
-
-			const fieldsError = this._parseError("Body", validate.errors[0].keyword, message, propName);
-			if (!fieldsError) next(fieldsError);
-			else next();
+			const fieldsError = this._parseError(type, validate.errors[0].keyword, message, propName);
+			if (fieldsError) return fieldsError;
+			else return new HttpException(0, `Unhandler field error!`, ErrorCodes.badRequest.fieldsError);
 		}
 	}
-	async queryValidationMiddleware(request: Request, response: Response, next: NextFunction) {
-		const validate = this._ajv.compile(response.locals.methodEl.params);
-		validate(request.query);
-		if (!validate.errors) next();
-		else {
-			const propName = validate.errors[0].instancePath.split("/")[validate.errors[0].instancePath.split("/").length - 1];
-			const message = validate.errors[0].message;
+	fieldsValidationMiddleware = (request: Request, response: Response, next: NextFunction) => {
+		const bodyErr = this._validate(request.body, response.locals.methodEl.body, "Body");
+		const queryErr = this._validate(request.query, response.locals.methodEl.query, "Query");
 
-			const fieldsError = this._parseError("Query", validate.errors[0].keyword, message, propName);
-			if (!fieldsError) next(fieldsError);
-			else next();
-		}
-	}
+		if (!bodyErr && !queryErr) next();
+		else next(bodyErr != null ? bodyErr : queryErr);
+	};
 }

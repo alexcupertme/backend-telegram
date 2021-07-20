@@ -1,10 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 import moment from "moment";
-import path from "path";
 import winston from "winston";
+import DailyRotateFile from "winston-daily-rotate-file";
+
+var transport = new DailyRotateFile({
+	filename: "log-%DATE%.log",
+	datePattern: "YYYY-MM-DD-HH",
+	maxSize: "10mb",
+	maxFiles: "5",
+	dirname: "./log",
+});
 
 const logger = winston.createLogger({
-	transports: [new winston.transports.File({ filename: path.join("log", `log-${moment().format("YYYY-MM-DD HH-mm-ss-ms")}.log`), level: "info" })],
+	transports: [transport],
 	format: winston.format.combine(
 		winston.format.printf((info) => {
 			return `${info.message}`;
