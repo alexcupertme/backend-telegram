@@ -72,6 +72,12 @@ export const ErrorCodes = {
 			textCode: "ERR_VERIFICATION_MAIL_REQUIRED",
 			msg: "You need to verify your mail first!",
 		},
+		rateLimit: {
+			httpStatus: 400,
+			code: 40012,
+			textCode: "ERR_RATE_LIMIT",
+			msg: "You being rate limited! Try again later.",
+		},
 	},
 	serverError: {
 		default: {
