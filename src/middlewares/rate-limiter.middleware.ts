@@ -5,7 +5,7 @@ import Redis from "@library/redis";
 import { NextFunction, Request, Response } from "express";
 
 export async function rateLimiterMiddleware(request: Request, response: Response, next: NextFunction) {
-	const ip = request.headers["x-forwarded-for"] && !Array.isArray(request.headers["x-forwarded-for"]) ? request.headers["x-forwarded-for"] : request.ip;
+	const ip = request.headers["x-forwarded-for"] && !Array.isArray(request.headers["x-forwarded-for"]) ? request.headers["x-forwarded-for"].split(", ")[0] : request.ip;
 	const isActive = await Redis.client.exists(ip);
 	await Redis.client.incr(ip);
 	if (!isActive) {
