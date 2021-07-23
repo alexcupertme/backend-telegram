@@ -26,13 +26,13 @@ class Database implements IDatabase {
 			console.log(`Server successfully connected to database ${this._databaseName}!`);
 		});
 		db.on("disconnected", () => {
-			console.log(`Server disconnected from database ${this._databaseName}!`);
+			console.warn(`Server disconnected from database ${this._databaseName}!`);
 		});
 		db.on("reconnected", () => {
 			console.log(`Server successfully reconnected to database ${this._databaseName}!`);
 		});
 		db.on("error", () => {
-			console.log(`Server can't connect to database...`);
+			console.error(`Server can't connect to database...`);
 		});
 	}
 }
