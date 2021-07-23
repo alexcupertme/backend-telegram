@@ -1,25 +1,23 @@
 import { Constants } from "@constants";
 import console from "@utils/console";
 import { getMailContent } from "./get-mail-content";
-import axios from "axios";
+import sendpulse from "sendpulse-api";
 import userModel from "@database/models/user.model";
 import { v4 as uuidv4 } from "uuid";
 
 class MailValidation {
 	async addToConfirmation(email: string) {
-		try {
+		var TOKEN_STORAGE = "/tmp/";
+
+		sendpulse.init(Constants.SP_ID, Constants.SP_SECRET, TOKEN_STORAGE, () => {
 			const confirmId = uuidv4();
-			await userModel.updateOne({ email }, { confirmId });
-			const data = await axios({
-				method: "POST",
-				url: "https://api.sendinblue.com/v3/smtp/email",
-				headers: {
-					accept: "application/json",
-					"api-key": Constants.SIB_TOKEN,
-					"content-type": "application/json",
+			userModel.updateOne({ email }, { confirmId });
+			sendpulse.smtpSendMail(
+				(data: any) => {
+					console.log(data);
 				},
-				data: {
-					sender: {
+				{
+					from: {
 						name: "BotFactory Ltd",
 						email: "support@botsfactory.ru",
 					},
@@ -29,13 +27,10 @@ class MailValidation {
 						},
 					],
 					subject: "Успешная регистрация! | BotFactory Ltd",
-					htmlContent: getMailContent(email, confirmId),
-				},
-			});
-			return data.data ? data.data : null;
-		} catch (e) {
-			console.error(e.response.data);
-		}
+					html: getMailContent(email, confirmId),
+				}
+			);
+		});
 	}
 }
 

@@ -8,7 +8,8 @@ export abstract class Constants {
 	static readonly DB_PWD = process.env.DB_PWD;
 	static readonly TOKEN_SECRET_KEY = process.env.TOKEN_SECRET_KEY;
 	static readonly DB_NAME = process.env.DB_NAME;
-	static readonly SIB_TOKEN = process.env.SIB_TOKEN;
+	static readonly SP_ID = process.env.SP_ID;
+	static readonly SP_SECRET = process.env.SP_SECRET;
 	static readonly DB_PORT = process.env.DB_PORT;
 	static readonly ErrorCodes = {
 		badRequest: {
