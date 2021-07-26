@@ -3,7 +3,7 @@ import { register } from "@api/auth/register";
 import { login } from "@api/auth/login";
 import { logout } from "@api/auth/logout";
 import { changePassword } from "@api/auth/change-password";
-// import { verifyMail } from "@api/auth/verify-mail";
+import { verifyMail } from "@api/auth/verify-mail";
 
 // User routes
 import { test } from "@api/user/test";
@@ -112,28 +112,32 @@ export const schema: ISchema = {
 				},
 				{
 					name: "verify-mail",
-					method: login,
-					type: "POST",
+					method: verifyMail,
+					type: "GET",
 					minVersion: 1.0,
 					maxVersion: 1.0,
 					maxRequestRate: 3,
 					timeRequestRate: 600,
 					description: "User activation by mail",
 					body: {
-						properties: {},
-						additionalProperties: false,
-						required: []
-					},
-					query: {
 						properties: {
-							confirmId: {
-								type: "string"
+							mail: {
+								type: "string",
+								minLength: 4,
+								maxLength: 40,
+								pattern: "^([\\w"+"\.\-]+)@([\\"+"w\-]+)((\.(\\"+"w){2,3})+)$"
 							}
 						},
 						additionalProperties: false,
-						required: ["confirmId"]
+						required: ["mail"]
 					},
-					roles: ["user"],
+					query: {
+						properties: {
+						},
+						additionalProperties: false,
+						required: []
+					},
+					roles: ["default"],
 					mailVerification: false,
 				},
 				{
